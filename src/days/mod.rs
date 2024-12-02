@@ -41,6 +41,7 @@ pub trait Day {
             Ok(parsed_data) => {
                 println!("Running Part 1");
                 println!("Solution for part 1: {}", Self::part_1(&parsed_data));
+                println!("Running Part 2");
                 println!("Solution for part 2: {}", Self::part_2(&parsed_data));
             }
         }
