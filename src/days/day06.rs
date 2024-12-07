@@ -185,25 +185,25 @@ fn find_guard(input: &Vec<Vec<Positions>>) -> (usize, usize) {
     (0, 0)
 }
 
-fn print_grid(input: &Vec<Vec<Positions>>) {
-    for row in input {
-        for element in row {
-            match element {
-                Positions::Empty => print!("."),
-                Positions::Obstacle => print!("#"),
-                Positions::Guard(direction, _) => match direction {
-                    Direction::Up => print!("^"),
-                    Direction::Down => print!("v"),
-                    Direction::Left => print!("<"),
-                    Direction::Right => print!(">"),
-                },
-                Positions::Visited(_) => print!("X"),
-            }
-        }
-        println!("");
-    }
-    println!("")
-}
+// fn print_grid(input: &Vec<Vec<Positions>>) {
+//     for row in input {
+//         for element in row {
+//             match element {
+//                 Positions::Empty => print!("."),
+//                 Positions::Obstacle => print!("#"),
+//                 Positions::Guard(direction, _) => match direction {
+//                     Direction::Up => print!("^"),
+//                     Direction::Down => print!("v"),
+//                     Direction::Left => print!("<"),
+//                     Direction::Right => print!(">"),
+//                 },
+//                 Positions::Visited(_) => print!("X"),
+//             }
+//         }
+//         println!("");
+//     }
+//     println!("")
+// }
 
 fn place_obstacle(input: &Vec<Vec<Positions>>, coords: (usize, usize)) -> bool {
     let mut grid = input.clone();
