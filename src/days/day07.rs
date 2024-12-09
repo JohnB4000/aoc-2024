@@ -104,6 +104,9 @@ fn evaluate_equation(result: &u64, values: &Vec<u64>, operators: &[Operators]) -
                     },
                     EquationSegment::Operator(operators) => operator = Some(operators.clone()),
                 }
+                if value > *result {
+                    break;
+                }
             }
             if value == *result {
                 return *result;
