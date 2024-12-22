@@ -30,7 +30,7 @@ impl Day for Day10 {
     }
 
     fn part_1(input: &Self::ParsedData) -> Self::Part1Result {
-        let mut result = 0;
+        let mut count = 0;
 
         for (row, arr) in input.iter().enumerate() {
             for (col, value) in arr.iter().enumerate() {
@@ -38,15 +38,34 @@ impl Day for Day10 {
                     continue;
                 }
 
-                result += search_part_1(input, (row, col));
+                let mut queue = vec![(row, col)];
+                let mut visited: HashSet<(usize, usize)> = HashSet::new();
+
+                while let Some((row, col)) = queue.pop() {
+                    if visited.contains(&(row, col)) {
+                        continue;
+                    }
+
+                    visited.insert((row, col));
+
+                    if input[row][col] == 9 {
+                        count += 1;
+                    }
+
+                    for (neighbour_row, neighbour_col) in get_neighbours(input, row, col) {
+                        if input[row][col] + 1 == input[neighbour_row][neighbour_col] {
+                            queue.push((neighbour_row, neighbour_col));
+                        }
+                    }
+                }
             }
         }
 
-        result
+        count
     }
 
     fn part_2(input: &Self::ParsedData) -> Self::Part2Result {
-        let mut result = 0;
+        let mut count = 0;
 
         for (row, arr) in input.iter().enumerate() {
             for (col, value) in arr.iter().enumerate() {
@@ -54,11 +73,23 @@ impl Day for Day10 {
                     continue;
                 }
 
-                result += search_part_2(input, (row, col));
+                let mut queue = vec![(row, col)];
+
+                while let Some((row, col)) = queue.pop() {
+                    if input[row][col] == 9 {
+                        count += 1;
+                    }
+
+                    for (neighbour_row, neighbour_col) in get_neighbours(input, row, col) {
+                        if input[row][col] + 1 == input[neighbour_row][neighbour_col] {
+                            queue.push((neighbour_row, neighbour_col));
+                        }
+                    }
+                }
             }
         }
 
-        result
+        count
     }
 }
 
@@ -80,56 +111,4 @@ fn get_neighbours(input: &Vec<Vec<u32>>, row: usize, col: usize) -> Vec<(usize, 
     }
 
     neighbours
-}
-
-fn search_part_1(input: &Vec<Vec<u32>>, coords: (usize, usize)) -> i32 {
-    let (row, col) = coords;
-    let mut count = 0;
-
-    let mut queue = Vec::new();
-    queue.push((row, col));
-
-    let mut visited: HashSet<(usize, usize)> = HashSet::new();
-
-    while let Some((row, col)) = queue.pop() {
-        if visited.contains(&(row, col)) {
-            continue;
-        }
-
-        visited.insert((row, col));
-
-        if input[row][col] == 9 {
-            count += 1;
-        }
-
-        for (neighbour_row, neighbour_col) in get_neighbours(input, row, col) {
-            if input[row][col] + 1 == input[neighbour_row][neighbour_col] {
-                queue.push((neighbour_row, neighbour_col));
-            }
-        }
-    }
-
-    count
-}
-
-fn search_part_2(input: &Vec<Vec<u32>>, coords: (usize, usize)) -> i32 {
-    let (row, col) = coords;
-    let mut count = 0;
-
-    let mut queue = Vec::new();
-    queue.push((row, col));
-
-    while let Some((row, col)) = queue.pop() {
-        if input[row][col] == 9 {
-            count += 1;
-        }
-
-        for (neighbour_row, neighbour_col) in get_neighbours(input, row, col) {
-            if input[row][col] + 1 == input[neighbour_row][neighbour_col] {
-                queue.push((neighbour_row, neighbour_col));
-            }
-        }
-    }
-
-    count
 }
